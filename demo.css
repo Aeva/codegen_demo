@@ -1,0 +1,21 @@
+
+body {
+    overflow: hidden;
+}
+
+#center_guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0px;
+    height: 0px;
+}
+
+.tile {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin-left: -32px;
+    margin-top: -16px;
+    background-image: url('test_tile2.png');
+}

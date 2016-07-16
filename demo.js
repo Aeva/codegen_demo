@@ -21,7 +21,7 @@ var load_map = function () {
     }
     for (var x=0; x < map.length; x+=1) {
         for (var y=0; y < map[x].length; y+=1) {
-            var neighbors = [[-1, -1], [1, -1], [-1, 1], [1, 1,]];
+            var neighbors = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
             var tile = map[x][y];
             tile.neighbors = [];
             for (var n=0; n<neighbors.length; n+=1) {

@@ -44,7 +44,7 @@ var basic_redraw = function () {
 var __draw_cache = null;
 var caching_redraw = function () {
     if (__draw_cache === null) {
-        
+        __draw_cache = "";
         for (var x=0; x<map.length; x+=1) {
             var column = map[x];
             for (var y=0; y<column.length; y+=1) {

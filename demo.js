@@ -41,6 +41,7 @@ BasicTile.prototype.draw = function () {
 
 
 var update_fps = (function () {
+    var last_update = 0;
     var last_time = 0;
     var samples = [];
     return function () {
@@ -48,7 +49,8 @@ var update_fps = (function () {
         var dt = now - last_time;
         last_time = now;
         samples.push(1000/dt);
-        if (samples.length >= 20) {
+        if (now - last_update > 1000) {
+            last_update = now;
             var sum = 0;
             for (var i=0; i<samples.length; i+=1) {
                 sum += samples[i];
@@ -82,7 +84,7 @@ var basic_redraw = function () {
 // generate the terrain
 var load_map = function () {
     var map = window.map = [];
-    var area = 5;
+    var area = 10;
     var low = Math.floor(area/2) * -1;
     var high = Math.floor(area/2);
     for (var x=low; x<=high; x+=1) {

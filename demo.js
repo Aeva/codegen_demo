@@ -25,7 +25,7 @@ var BasicTile = function (x, y, z) {
     });
 
     define_getter(this, "__screen_z", function () {
-        return (this.y - this.x) + this.z;
+        return Math.round(((this.y - this.x) + this.z) * 100);
     });
 
     this.neighbors = null;
@@ -90,8 +90,7 @@ var load_map = function () {
     for (var x=low; x<=high; x+=1) {
         var column = [];
         for (var y=low; y<=high; y+=1) {
-            var z = 0;
-            column.push(new BasicTile(x, y, z));
+            column.push(new BasicTile(x, y));
         }
         map.push(column);
     }

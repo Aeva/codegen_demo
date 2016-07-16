@@ -9,6 +9,15 @@ body {
     left: 50%;
     width: 0px;
     height: 0px;
+    z-index: 1;
+}
+
+#fps_counter {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color: black;
+    z-index: 100;
 }
 
 .tile {

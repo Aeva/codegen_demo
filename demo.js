@@ -40,6 +40,28 @@ BasicTile.prototype.draw = function () {
 };
 
 
+var update_fps = (function () {
+    var last_time = 0;
+    var samples = [];
+    return function () {
+        var now = performance.now();
+        var dt = now - last_time;
+        last_time = now;
+        samples.push(1000/dt);
+        if (samples.length >= 20) {
+            var sum = 0;
+            for (var i=0; i<samples.length; i+=1) {
+                sum += samples[i];
+            }
+            var average = sum/samples.length;
+            samples = [];
+            var ticker = document.getElementById("fps_counter");
+            ticker.innerHTML = "fps: " + Math.round(average);
+        }
+    };
+})();
+
+
 var basic_redraw = function () {
     var acc = "";
     for (var x=0; x<map.length; x+=1) {
@@ -52,6 +74,7 @@ var basic_redraw = function () {
     var ctx = document.getElementById("center_guide");
     ctx.innerHTML = acc;
 
+    update_fps();
     requestAnimationFrame(basic_redraw);
 };
 

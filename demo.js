@@ -8,20 +8,21 @@ var map = [];
 // generate the terrain
 var load_map = function () {
     var map = window.map = [];
-    var area = 10;
+    var area = 30;
     var low = Math.floor(area/2) * -1;
     var high = Math.floor(area/2);
     for (var x=low; x<=high; x+=1) {
         var column = [];
         for (var y=low; y<=high; y+=1) {
-            var slope = (y-x) * -.5 - Math.random()*1.5;
+            var slope = Math.sin(x*0.5) + Math.sin(y*0.5) * 0.5;
             column.push(new BasicTile(x, y, slope));
         }
         map.push(column);
     }
     for (var x=0; x < map.length; x+=1) {
         for (var y=0; y < map[x].length; y+=1) {
-            var neighbors = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
+            var neighbors = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+                
             var tile = map[x][y];
             tile.neighbors = [];
             for (var n=0; n<neighbors.length; n+=1) {
@@ -37,9 +38,6 @@ var load_map = function () {
             }
         }
     }
-
-
-    map[2][4].z = 3;
 };
 
 

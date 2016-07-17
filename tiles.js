@@ -36,16 +36,53 @@ BasicTile.prototype = {
         }
         return repeats;
     },
+};
 
-    "draw" : function () {
-        var tiles = "";
-        for (var i=0; i<=this.__depth(); i+=1) {
-            var style = "";
-            style += "left:" + this.__screen_x() + "px;";
-            style += "top:" + (this.__screen_y(-i)) + "px;";
-            style += "z-index: " + this.__screen_z(-i) + ";";
-            tiles += "<div class='tile' style='" + style + "'></div>\n";
+
+function TerrainTile (x, y, z) {
+    this.x = x || 0;
+    this.y = y || 0;
+    this.z = z || 0;
+    this.neighbors = null;
+    this.elements = [];
+};
+TerrainTile.prototype = Object.create(BasicTile.prototype);
+TerrainTile.prototype.update_elements = function (dont_cascade) {
+    dont_cascade = dont_cascade || false;
+    var total_elements = this.__depth() + 1;
+    var offset = total_elements - this.elements.length;
+    if (offset > 0) {
+        // add elements
+        for (var i=0; i<offset; i+=1) {
+            var div = document.createElement("div");
+            div.className = "tile";
+            this.elements.push(div);
         }
-        return tiles;
-    },
+    }
+    else if (offset < 0) {
+        // remove elements
+        var removed = this.elements.pop();
+        if (removed.parentElement) {
+            removed.parentElement.removeChild(removed);
+        }
+    }
+
+    // update the divs for this grid
+    var ctx = document.getElementById("center_guide");
+    for (var i=0; i<this.elements.length; i+=1) {
+        var div = this.elements[i];
+        div.className = "tile";
+        div.style.left = "" + this.__screen_x() + "px";
+        div.style.top = "" + this.__screen_y(-i) + "px";
+        div.style.zIndex = this.__screen_z(-i);
+        if (!div.parentElement) {
+            ctx.appendChild(div);
+        }
+    }
+    if (!dont_cascade) {
+        for (var i=0; i<this.neighbors.length; i+=1) {
+            this.neighbors[i].update_elements(true);
+        }
+    }
+    return;
 };

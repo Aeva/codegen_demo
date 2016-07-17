@@ -8,14 +8,14 @@ var map = [];
 // generate the terrain
 var load_map = function () {
     var map = window.map = [];
-    var area = 30;
+    var area = 20;
     var low = Math.floor(area/2) * -1;
     var high = Math.floor(area/2);
     for (var x=low; x<=high; x+=1) {
         var column = [];
         for (var y=low; y<=high; y+=1) {
             var slope = Math.sin(x*0.5) + Math.sin(y*0.5) * 0.5;
-            column.push(new BasicTile(x, y, slope));
+            column.push(new TerrainTile(x, y, slope));
         }
         map.push(column);
     }
@@ -38,10 +38,18 @@ var load_map = function () {
             }
         }
     }
+
+    var middle = Math.round(area/2);
+    for (var x=0; x<map.length; x+=1) {
+        var height = x - middle;
+        map[x][middle].z = height * 0.5;
+        map[x][middle+1].z = height * 0.4;
+        map[x][middle-1].z = height * 0.4;
+    }
 };
 
 
 addEventListener("load", function () {
     load_map();
-    caching_redraw();
+    dom_update();
 });
